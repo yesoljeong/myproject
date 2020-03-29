@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JQuery 연습하고 가기!</title>
+    <!-- JQuery를 import 합니다 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        div.question-box {
+            margin: 10px 0 20px 0;
+        }
+
+        div.question-box>div {
+            margin-top: 30px;
+        }
+    </style>
+
+    <script>
+        function q1() {
+
+            $('#cat').html('');
+
+            $.ajax({
+                type: "GET",
+                url: "https://api.thecatapi.com/v1/images/search",
+                data: {},
+                success: function (response) {
+
+                    for (i = 0; i < response.length; i++) {
+                        let catImg = response[i];
+                        let catUrl = catImg['url'];
+
+                        let tempHtml = `<img src='${catUrl}'>`;
+
+                        $('#cat').append(tempHtml);
+                    }
+                }
+            })
+        }
+    </script>
+
+</head>
+
+<body>
+    <h1>JQuery+Ajax의 조합을 연습하자!</h1>
+
+    <hr />
+
+    <div class="question-box">
+        <h2>3. 랜덤 고양이 사진 API를 이용하기</h2>
+        <p>예쁜 고양이 사진을 보여주세요</p>
+        <p>업데이트 버튼을 누를 때마다 지웠다 새로 씌여져야 합니다.</p>
+        <button onclick="q1()"> 냥! </button>
+        <div id='cat'>
+        </div>
+    </div>
+</body>
+
+</html>
