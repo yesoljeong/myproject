@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        #news-item>div {
+            width: 400px;
+            height: 50px;
+            background-color: bisque;
+            margin-top: 30px;
+        }
+
+        #news-item>img {
+            width: 400px;
+            height: 300px;
+
+        }
+    </style>
+
+
+</head>
+<script>
+    function news() {
+        let keyword = $('#keywords').val();
+
+        if (keyword === '') {
+            alert('검색어를 입력하세요!');
+            return;
+        }
+
+        let target_url = `https://newsapi.org/v2/everything?q=${keyword}&apiKey=5d6c1a1d4c0d4de1a60bc34087bb8655`;
+
+        $.ajax({
+            type: "GET",
+            url: target_url,
+            data: {},
+            success: function (response) {
+
+                // 객체 > articles 배열을 가지고 옴
+                let articles = response['articles']
+                // articles 배열에 있는 객체에 있는 'title'과 'urlToImage'를 겟
+                for (let i = 0; i < articles.length; i++) {
+                    let title = articles[i]['title']
+                    let urlToImage = articles[i]['urlToImage']
+                    let temp_html = `<div>${title}</div>
+                                        <img src='${urlToImage}'>`
+                    $('#news-item').append(temp_html);
+
+                }
+            }
+        })
+
+    }
+</script>
+
+<body>
+
+    <h1>5. 뉴스 검색 API를 이용하기</h1>
+    <h3>키워드에 걸맞는 뉴스를 띄워줍니다.</h3>
+    <h3>아무것도 입력하지 않으면, alert을 띄우주세요.</h3>
+    <input type="text" id='keywords'>
+    <button id='search-botton' onclick='news()'>관련 기사보기</button>
+    <div id='news-item'>
+    </div>
+
+</body>
+
+</html>
